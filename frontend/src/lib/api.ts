@@ -25,6 +25,28 @@ export type Empresa = {
   data_upload: string | null;
 };
 
+export type Usuario = {
+  CPF: string;
+  NOME: string;
+  EMAIL: string;
+  TIPO_USER: string;
+};
+
+export type CreateUsuarioPayload = {
+  CPF: string;
+  NOME: string;
+  EMAIL: string;
+  SENHA: string;
+  TIPO_USER: string;
+};
+
+export type UpdateUsuarioPayload = Partial<CreateUsuarioPayload>;
+
+export type TipoUsuario = {
+  COD_TIPO: string;
+  DESC_TIPO: string;
+};
+
 type ApiError = Error & { status?: number };
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "/api";
@@ -89,4 +111,38 @@ export function logout(token: string): Promise<{ message: string }> {
 
 export function getEmpresa(cnpj: string, token: string): Promise<Empresa> {
   return request<Empresa>(`/empresa/${cnpj}`, { method: "GET" }, token);
+}
+
+export function getUsuarios(token: string): Promise<Usuario[]> {
+  return request<Usuario[]>("/user", { method: "GET" }, token);
+}
+
+export function createUsuario(payload: CreateUsuarioPayload, token: string): Promise<Usuario> {
+  return request<Usuario>(
+    "/user",
+    {
+      method: "POST",
+      body: JSON.stringify(payload),
+    },
+    token,
+  );
+}
+
+export function updateUsuario(cpf: string, payload: UpdateUsuarioPayload, token: string): Promise<Usuario> {
+  return request<Usuario>(
+    `/user/${cpf}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    },
+    token,
+  );
+}
+
+export function deleteUsuario(cpf: string, token: string): Promise<void> {
+  return request<void>(`/user/${cpf}`, { method: "DELETE" }, token);
+}
+
+export function getTiposUsuario(token: string): Promise<TipoUsuario[]> {
+  return request<TipoUsuario[]>("/tipo-user", { method: "GET" }, token);
 }

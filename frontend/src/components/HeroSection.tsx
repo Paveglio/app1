@@ -60,13 +60,14 @@ const HeroSection = () => {
                 Acessar Sistema <ArrowRight size={18} />
               </Button>
             </Link>
-            <button
+            <Button
+              size="lg"
+              variant="outline"
               onClick={() => document.querySelector("#funcionalidades")?.scrollIntoView({ behavior: "smooth" })}
+              className="bg-transparent border-primary-foreground/35 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground font-semibold text-base px-8"
             >
-              <Button size="lg" variant="outline" className="border-primary-foreground/20 text-primary-foreground hover:bg-primary-foreground/10 font-semibold text-base px-8">
-                Saiba Mais
-              </Button>
-            </button>
+              Saiba Mais
+            </Button>
           </motion.div>
         </div>
 
