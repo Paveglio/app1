@@ -1,4 +1,4 @@
-import { IsNumber, IsString, Length } from 'class-validator';
+import { IsNumber, IsOptional, IsString, Length } from 'class-validator';
 
 /**
  * DTO de criacao de empresa.
@@ -17,11 +17,12 @@ export class CreateEmpresaDto {
   NOME: string;
 
   @IsString()
-  @Length(2, 2)
+  @Length(1, 2)
   OPTANTE_SN: string;
 
+  @IsOptional()
   @IsString()
-  @Length(2, 2)
+  @Length(1, 2)
   OPTANTE_MEI: string;
 
   @IsNumber()

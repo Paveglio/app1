@@ -86,19 +86,26 @@ export class UserEmpresasService {
     return this.userEmpresaRepository.save(updatedEmpresa);
   }
 
-  async deleteUserEmpresa(CNPJ: string) {
-    if (!cnpjValidator.isValid(CNPJ)) {
+  async deleteUserEmpresa(CNPJ: string, CPF: string) {
+    const normalizedCnpj = CNPJ.replace(/\D/g, '');
+    const normalizedCpf = CPF.replace(/\D/g, '');
+
+    if (!cnpjValidator.isValid(normalizedCnpj)) {
       throw new HttpException('CNPJ invalido', HttpStatus.BAD_REQUEST);
     }
 
-    const empresas = await this.userEmpresaRepository.find({
-      where: { CNPJ },
-    });
-
-    if (!empresas.length) {
-      throw new HttpException('Nenhum usuario-empresa encontrado para o CNPJ fornecido', HttpStatus.NOT_FOUND);
+    if (!cpf.isValid(normalizedCpf)) {
+      throw new HttpException('CPF invalido', HttpStatus.BAD_REQUEST);
     }
 
-    return this.userEmpresaRepository.delete({ CNPJ });
+    const empresa = await this.userEmpresaRepository.findOne({
+      where: { CNPJ: normalizedCnpj, CPF: normalizedCpf },
+    });
+
+    if (!empresa) {
+      throw new HttpException('Usuario-empresa nao encontrado para o par CNPJ/CPF informado', HttpStatus.NOT_FOUND);
+    }
+
+    return this.userEmpresaRepository.delete({ CNPJ: normalizedCnpj, CPF: normalizedCpf });
   }
 }

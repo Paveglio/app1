@@ -46,8 +46,8 @@ export class UserEmpresasController {
     return this.userEmpresasService.updateUserEmpresa(CNPJ, updateUserEmpresaDto);
   }
 
-  @Delete(':CNPJ')
-  deleteUserEmpresa(@Param('CNPJ') CNPJ: string) {
-    return this.userEmpresasService.deleteUserEmpresa(CNPJ);
+  @Delete(':CNPJ/:CPF')
+  deleteUserEmpresa(@Param('CNPJ') CNPJ: string, @Param('CPF') CPF: string) {
+    return this.userEmpresasService.deleteUserEmpresa(CNPJ, CPF);
   }
 }
