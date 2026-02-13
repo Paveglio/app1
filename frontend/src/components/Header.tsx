@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/ico.png";
 
 const navLinks = [
   { label: "Quem Somos", href: "#quem-somos" },
@@ -23,7 +24,12 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
       <div className="container mx-auto flex items-center justify-between h-16 px-4">
         <Link to="/" className="font-display text-xl font-bold text-primary tracking-tight">
-          MP <span className="text-gradient">DEV</span>
+          <span className="flex items-center gap-2">
+            <img src={logo} alt="MP DEV" className="h-8 w-8 object-contain" />
+            <span>
+              MP <span className="text-gradient">DEV</span>
+            </span>
+          </span>
         </Link>
 
         {/* Desktop nav */}

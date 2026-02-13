@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth-context";
+import logo from "@/assets/ico.png";
 
 const DashboardHeader = () => {
   const navigate = useNavigate();
@@ -35,8 +36,11 @@ const DashboardHeader = () => {
     <header className="h-14 border-b border-border bg-card flex items-center justify-between px-4 shrink-0">
       <div className="flex items-center gap-3">
         <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
-        <span className="font-display text-lg font-bold text-foreground">
-          MP <span className="text-gradient">DEV</span>
+        <span className="flex items-center gap-2 font-display text-lg font-bold text-foreground">
+          <img src={logo} alt="MP DEV" className="h-7 w-7 object-contain" />
+          <span>
+            MP <span className="text-gradient">DEV</span>
+          </span>
         </span>
       </div>
 

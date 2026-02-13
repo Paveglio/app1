@@ -28,14 +28,26 @@ import { JwtAuthGuard } from './auth.guards';
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => ({
-        global: true,
-        secret: configService.get<string>('JWT_SECRET'),
-        signOptions: {
-          expiresIn: configService.get<string>('JWT_EXPIRATION', '30d'),
-          algorithm: 'HS256',
-        },
-      }),
+      useFactory: async (configService: ConfigService) => {
+        const jwtSecret =
+          configService.get<string>('JWT_SECRET') ||
+          (configService.get<string>('NODE_ENV', 'development') === 'production'
+            ? undefined
+            : 'dev-only-secret-change-me');
+
+        if (!jwtSecret) {
+          throw new Error('JWT_SECRET nao definido para ambiente de producao');
+        }
+
+        return {
+          global: true,
+          secret: jwtSecret,
+          signOptions: {
+            expiresIn: configService.get<string>('JWT_EXPIRATION', '30d'),
+            algorithm: 'HS256',
+          },
+        };
+      },
       inject: [ConfigService],
     }),
     ThrottlerModule.forRoot([
@@ -44,10 +56,6 @@ import { JwtAuthGuard } from './auth.guards';
         limit: 10,
       },
     ]),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
-    }),
   ],
   providers: [AuthService, ...userProviders, ...UserEmpresasProviders, LocalStrategy, JwtAuthGuard],
   controllers: [AuthController],

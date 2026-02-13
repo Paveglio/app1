@@ -27,7 +27,7 @@ async function bootstrap() {
   const nodeEnv = configService.get<string>('NODE_ENV', 'development');
   const corsOrigin = configService.get<string>(
     'CORS_ORIGIN',
-    'http://localhost:4200,http://localhost:8080,http://127.0.0.1:8080',
+    'http://localhost:8080',
   );
 
   // Headers de seguranca HTTP.
